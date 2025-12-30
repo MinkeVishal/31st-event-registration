@@ -14,8 +14,10 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       fontFamily: {
-        "lobster": ["Lobster", 'system-ui'],
-        "playpen": ["Playpen Sans", 'cursive']
+        "lobster": ['var(--font-lobster)', 'cursive'],
+        "playpen": ["Playpen Sans", 'cursive'],
+        "finale": ['var(--font-finale)', 'serif'],
+        "playfair": ['var(--font-playfair)', 'serif'],
       }
     },
   },

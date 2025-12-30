@@ -45,7 +45,11 @@ export default function Home() {
           <Image src={'/Poster.jpg'} fill alt="poster" className="object-contain" />
         </div>
         <p className="border mt-3 rounded-full px-3 py-1 text-sm">Scroll ↓</p>
-        <h1 className="text-4xl text-center mt-5 font-lobster p-4">🎆 THE GRAND FINALE: YEAR-END 2K25 🎆</h1>
+        
+        <h1 className="mt-6 mb-2 text-lg md:text-xl text-center font-bold tracking-wider bg-gradient-to-r from-yellow-200 via-pink-200 to-yellow-200 bg-clip-text text-transparent">
+          🎆 THE GRAND FINALE: YEAR-END 2K25 🎆
+        </h1>
+
         <h2 className="text-2xl font-bold text-red-100 my-3 text-center">Trip Goals presents the most electrifying night in Chhatrapati Sambhajinagar</h2>
 
         <div className="flex justify-between gap-14 items-center mt-5 text-center text-xl">
@@ -164,7 +168,7 @@ export default function Home() {
           >
             {[1, 2, 3, 4, 5, 6].map((item) => (
               <SwiperSlide key={item} style={{ width: 'auto' }} className="pb-3">
-                <img src={`./hotel/${item}.jpg`} alt={`${item}-image`} className="h-60 rounded-lg" />
+                <Image src={`/hotel/${item}.jpg`} alt={`${item}-image`} width={320} height={240} className="h-60 rounded-lg object-cover" />
               </SwiperSlide>
             ))}
           </Swiper>
@@ -193,8 +197,6 @@ export default function Home() {
         <div className="mt-5 flex w-full flex-col p-4 bg-[#ff171715]">
           <h3 className="text-3xl text-center font-lobster text-white">Rules</h3>
           <ul className="ml-6 mt-5 list-disc">
-            <li>Alcohol strictly prohibited</li>
-            <li>Smoking is not allowed</li>
             <li>Entry only with a valid pass</li>
             <li>Please maintain your standards</li>
           </ul>
@@ -203,10 +205,25 @@ export default function Home() {
 
         <div className="mt-5 px-4">
           <p className="mt-5 text-center">Event organised and managed by <br /><strong>Shoaib Pathan</strong></p>
-          <a href={'https://instagram.com/princ_shoaib'} target="_blank" className="mb-5 mt-3 w-max flex items-center justify-center gap-2 py-1 px-3 mx-auto border rounded-full">
+          <a href={'https://instagram.com/princ_shoaib'} target="_blank" className="mb-2 mt-3 w-max flex items-center justify-center gap-2 py-1 px-3 mx-auto border rounded-full">
             <Image src={'/instagram.svg'} alt="instagram" height={20} width={20} />
             <p>@princ_shoaib</p>
           </a>
+          <a href={'https://www.instagram.com/natkhat_krushna_29'} target="_blank" className="mb-2 w-max flex items-center justify-center gap-2 py-1 px-3 mx-auto border rounded-full">
+            <Image src={'/instagram.svg'} alt="instagram" height={20} width={20} />
+            <p>@natkhat_krushna_29</p>
+          </a>
+          <a href={'https://www.instagram.com/berojgaar_engineer_21?igsh=MWg5ZGpuZnN4bWRsdA%3D%3D'} target="_blank" className="mb-2 w-max flex items-center justify-center gap-2 py-1 px-3 mx-auto border rounded-full">
+            <Image src={'/instagram.svg'} alt="instagram" height={20} width={20} />
+            <p>@berojgaar_engineer_21</p>
+          </a>
+          <a href={'https://www.instagram.com/mr_ketch_29?igsh=dmNxam9oOTBvZDh5'} target="_blank" className="mb-5 w-max flex items-center justify-center gap-2 py-1 px-3 mx-auto border rounded-full">
+            <Image src={'/instagram.svg'} alt="instagram" height={20} width={20} />
+            <p>@mr_ketch_29</p>
+          </a>
+          <div className="flex justify-center my-2">
+            <Image src="/smartcollection.png" alt="Smart Collection" width={120} height={120} className="rounded-lg" />
+          </div>
           <h4 className="font-bold text-sm">Policy</h4>
           <p className="text-sm text-gray-300 mb-3">Refunds are not available</p>
           <h4 className="font-bold text-sm">Special Thanks to</h4>

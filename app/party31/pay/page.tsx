@@ -8,8 +8,9 @@ import Cookies from 'js-cookie';
 export default function PaymentScreen() {
   const router = useRouter();
   const [transactionId, setTransactionId] = useState('');
+  const [screenshot, setScreenshot] = useState<string>('');
+  const [referral, setReferral] = useState('');
   const [loading, setLoading] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
   const [amount, setAmount] = useState(599);
   const [passType, setPassType] = useState('stag');
   
@@ -64,6 +65,8 @@ export default function PaymentScreen() {
         body: JSON.stringify({
           email: user.email,
           transactionId: transactionId.trim(),
+          screenshot: screenshot,
+          referral: referral.trim(),
         }),
       });
 
@@ -108,63 +111,86 @@ export default function PaymentScreen() {
           UPI ID: <span className="font-semibold">{adminUpiId}</span>
         </p>
 
-        {!showConfirmation ? (
-          <>
-            {/* Pay with UPI button */}
-            <button 
-              onClick={handlePayWithAnyUPI}
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold px-8 py-3 rounded-lg transition mb-3"
-            >
-              Pay Now
-            </button>
+        {/* Pay with UPI button */}
+        <button 
+          onClick={handlePayWithAnyUPI}
+          className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold px-8 py-3 rounded-lg transition mb-6"
+        >
+          Pay ₹{amount} Now
+        </button>
 
-            <button 
-              onClick={() => setShowConfirmation(true)}
-              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-lg transition"
-            >
-              I have completed payment
-            </button>
-          </>
-        ) : (
-          <>
-            {/* Transaction ID input */}
-            <div className="text-left mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Enter Transaction ID / UTR Number
-              </label>
-              <input
-                type="text"
-                value={transactionId}
-                onChange={(e) => setTransactionId(e.target.value)}
-                placeholder="e.g., 123456789012"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                required
-              />
-              <p className="text-xs text-gray-400 mt-1">
-                Find this in your payment app after successful payment
-              </p>
-            </div>
+        <div className="border-t pt-6">
+          <p className="text-sm font-medium text-gray-700 mb-4 text-center">After payment, fill the details below:</p>
 
-            <button 
-              onClick={handleConfirmPayment}
-              disabled={loading}
-              className={`w-full font-semibold px-8 py-3 rounded-lg transition mb-3 ${
-                loading 
-                  ? 'bg-gray-400 text-gray-200' 
-                  : 'bg-green-600 hover:bg-green-700 text-white'
-              }`}
-            >
-              {loading ? 'Verifying...' : 'Confirm Payment'}
-            </button>
+          {/* Transaction ID input */}
+          <div className="text-left mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Transaction ID / UTR Number <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              value={transactionId}
+              onChange={(e) => setTransactionId(e.target.value)}
+              placeholder="e.g., 123456789012"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              required
+            />
+            <p className="text-xs text-gray-400 mt-1">
+              Find this in your payment app after successful payment
+            </p>
+          </div>
 
-            <button 
-              onClick={() => setShowConfirmation(false)}
-              className="text-gray-500 hover:text-gray-700 text-sm"
-            >
-              ← Back
-            </button>
-          </>
-        )}
+          {/* Screenshot upload */}
+          <div className="text-left mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Upload Payment Screenshot
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+                    setScreenshot(reader.result as string);
+                  };
+                  reader.readAsDataURL(file);
+                }
+              }}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+            />
+            {screenshot && (
+              <p className="text-xs text-green-600 mt-1">✓ Screenshot uploaded</p>
+            )}
+          </div>
+
+          {/* Referral name */}
+          <div className="text-left mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Referral Name (Optional)
+            </label>
+            <input
+              type="text"
+              value={referral}
+              onChange={(e) => setReferral(e.target.value)}
+              placeholder="Enter referral name if any"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            />
+          </div>
+
+          <button 
+            onClick={handleConfirmPayment}
+            disabled={loading}
+            className={`w-full font-semibold px-8 py-3 rounded-lg transition ${
+              loading 
+                ? 'bg-gray-400 text-gray-200' 
+                : 'bg-green-600 hover:bg-green-700 text-white'
+            }`}
+          >
+            {loading ? 'Verifying...' : 'Confirm Payment'}
+          </button>
+        </div>
 
         <button 
           onClick={() => router.push('/party31/register')}

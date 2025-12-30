@@ -26,10 +26,6 @@ function RegisterForm() {
     const type = searchParams.get('passType');
     if (type && passPrices[type]) {
       setPassType(type);
-      // For couple pass, default quantity is 1 (means 1 couple)
-      if (type === 'couple') {
-        setQuantity(1);
-      }
     }
   }, [searchParams]);
 
@@ -153,24 +149,130 @@ function RegisterForm() {
               </label>
             </div>
 
-            <label className="block">
-              <span className="text-sm font-medium">Quantity (Number of Passes)</span>
-              <input
-                type="number"
-                min={1}
-                max={10}
-                className="mt-1 w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-indigo-500"
-                placeholder="1"
-                value={quantity}
-                onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
-                required
-              />
-            </label>
+            {/* Pass Type Selection */}
+            <div className="space-y-3">
+              <span className="text-sm font-medium">Select Pass Type</span>
+              
+              {/* Stag Pass */}
+              <div 
+                onClick={() => { if (passType !== 'stag') { setPassType('stag'); setQuantity(1); } }}
+                className={`cursor-pointer rounded-xl border-2 p-4 transition-all ${passType === 'stag' ? 'border-purple-600 bg-purple-50' : 'border-gray-200 hover:border-gray-300'}`}
+              >
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="font-semibold text-gray-900">🎫 Stag Pass</p>
+                    <p className="text-xs text-gray-500">Single entry</p>
+                  </div>
+                  <p className="text-lg font-bold text-purple-600">₹599</p>
+                </div>
+                {passType === 'stag' && (
+                  <div className="mt-3 flex items-center justify-between" onClick={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()}>
+                    <label className="text-sm text-gray-600">Quantity:</label>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                        className="w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-xl font-bold"
+                      >
+                        −
+                      </button>
+                      <span className="w-10 text-center text-lg font-semibold">{quantity}</span>
+                      <button
+                        type="button"
+                        onClick={() => setQuantity(Math.min(10, quantity + 1))}
+                        className="w-10 h-10 rounded-full bg-purple-600 hover:bg-purple-700 text-white flex items-center justify-center text-xl font-bold"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
 
-            <div className="rounded-lg bg-indigo-50 p-3 text-sm">
-              <p className="font-semibold text-indigo-900">Pass Type: {passPrices[passType]?.name}</p>
-              <p className="font-semibold text-indigo-900 mt-1">Total Amount: ₹{getTotalAmount()}</p>
-              <p className="text-xs text-indigo-700 mt-1">{quantity} pass(es) × ₹{getPrice()}</p>
+              {/* Couple Pass */}
+              <div 
+                onClick={() => { if (passType !== 'couple') { setPassType('couple'); setQuantity(1); } }}
+                className={`cursor-pointer rounded-xl border-2 p-4 transition-all ${passType === 'couple' ? 'border-purple-600 bg-purple-50' : 'border-gray-200 hover:border-gray-300'}`}
+              >
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="font-semibold text-gray-900">💑 Couple Pass</p>
+                    <p className="text-xs text-gray-500">Entry for 2 people</p>
+                  </div>
+                  <p className="text-lg font-bold text-purple-600">₹1099</p>
+                </div>
+                {passType === 'couple' && (
+                  <div className="mt-3 flex items-center justify-between" onClick={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()}>
+                    <label className="text-sm text-gray-600">Quantity:</label>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                        className="w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-xl font-bold"
+                      >
+                        −
+                      </button>
+                      <span className="w-10 text-center text-lg font-semibold">{quantity}</span>
+                      <button
+                        type="button"
+                        onClick={() => setQuantity(Math.min(10, quantity + 1))}
+                        className="w-10 h-10 rounded-full bg-purple-600 hover:bg-purple-700 text-white flex items-center justify-center text-xl font-bold"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Family Pass */}
+              <div 
+                onClick={() => { if (passType !== 'family') { setPassType('family'); setQuantity(1); } }}
+                className={`cursor-pointer rounded-xl border-2 p-4 transition-all ${passType === 'family' ? 'border-purple-600 bg-purple-50' : 'border-gray-200 hover:border-gray-300'}`}
+              >
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="font-semibold text-gray-900">👨‍👩‍👧‍👦 Family Pass</p>
+                    <p className="text-xs text-gray-500">Price per person</p>
+                  </div>
+                  <p className="text-lg font-bold text-purple-600">₹550<span className="text-sm font-normal">/person</span></p>
+                </div>
+                {passType === 'family' && (
+                  <div className="mt-3 flex items-center justify-between" onClick={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()}>
+                    <label className="text-sm text-gray-600">Number of people:</label>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                        className="w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-xl font-bold"
+                      >
+                        −
+                      </button>
+                      <span className="w-10 text-center text-lg font-semibold">{quantity}</span>
+                      <button
+                        type="button"
+                        onClick={() => setQuantity(Math.min(10, quantity + 1))}
+                        className="w-10 h-10 rounded-full bg-purple-600 hover:bg-purple-700 text-white flex items-center justify-center text-xl font-bold"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Total Amount */}
+            <div className="rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 p-4 text-white">
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-sm opacity-90">{passPrices[passType]?.name}</p>
+                  <p className="text-xs opacity-75 mt-1">
+                    {quantity} × ₹{getPrice()}
+                  </p>
+                </div>
+                <p className="text-2xl font-bold">₹{getTotalAmount()}</p>
+              </div>
             </div>
 
             <button type="submit" disabled={loading} className={`mt-4 inline-flex w-full items-center justify-center rounded-xl px-4 py-3 text-sm font-semibold transition-all ${loading ? 'bg-gray-200 text-gray-600' : 'bg-purple-600 text-white hover:bg-purple-700'}`}>

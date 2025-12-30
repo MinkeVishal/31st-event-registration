@@ -16,6 +16,7 @@
     "axios": "^1.7.7",
     "crypto": "^1.0.1",
     "formidable": "^3.5.1",
+    "html5-qrcode": "^2.3.8",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "next": "^14.2.17",

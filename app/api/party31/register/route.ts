@@ -47,7 +47,7 @@ export async function POST(req: Request) {
           screenshot: '',
           paymentStatus: false,
           referral: referral || '',
-        },
+        } as any,
       });
       users.push(user);
     }
