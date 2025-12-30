@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { Html5QrcodeScanner } from 'html5-qrcode'
 
 interface UserInfo {
@@ -22,7 +22,7 @@ export default function CheckinPage() {
 
   const ADMIN_PASSWORD = 'party31admin' // Change this!
 
-  const onScanSuccess = async (decodedText: string) => {
+  const onScanSuccess = useCallback(async (decodedText: string) => {
     if (scanResult === decodedText) return // Prevent duplicate scans
     
     setScanResult(decodedText)
@@ -63,7 +63,11 @@ export default function CheckinPage() {
       setUserInfo(null)
       setMessage('')
     }, 3000)
-  }
+  }, [scanResult])
+
+  const onScanFailure = useCallback((error: string) => {
+    // Silently handle scan failures
+  }, [])
 
   useEffect(() => {
     if (!isAuthenticated) return
@@ -87,42 +91,9 @@ export default function CheckinPage() {
         scannerRef.current.clear().catch(console.error)
       }
     }
-  }, [isAuthenticated, onScanSuccess])
+  }, [isAuthenticated, onScanSuccess, onScanFailure])
 
-      const data = await response.json()
-
-      if (data.success) {
-        setUserInfo(data.user)
-        if (data.alreadyCheckedIn) {
-          setStatus('already')
-          setMessage('Already checked in!')
-        } else {
-          setStatus('success')
-          setMessage('Check-in successful!')
-        }
-      } else {
-        setStatus('error')
-        setMessage(data.error || 'Invalid QR code')
-        setUserInfo(null)
-      }
-    } catch (error) {
-      setStatus('error')
-      setMessage('Failed to verify QR code')
-      setUserInfo(null)
-    }
-
-    // Reset after 3 seconds
-    setTimeout(() => {
-      setScanResult(null)
-      setStatus('idle')
-      setUserInfo(null)
-      setMessage('')
-    }, 3000)
-  }
-
-  const onScanFailure = (error: string) => {
-    // Silently handle scan failures
-  }
+  
 
   const handleLogin = () => {
     if (password === ADMIN_PASSWORD) {
