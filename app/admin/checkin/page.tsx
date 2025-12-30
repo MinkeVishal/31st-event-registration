@@ -22,6 +22,21 @@ export default function CheckinPage() {
 
   const ADMIN_PASSWORD = 'party31admin' // Change this!
 
+  const onScanSuccess = async (decodedText: string) => {
+    if (scanResult === decodedText) return // Prevent duplicate scans
+    
+    setScanResult(decodedText)
+    setStatus('loading')
+
+    try {
+      const response = await fetch('/api/admin/checkin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: decodedText }),
+      })
+    // ...existing code...
+  }
+
   useEffect(() => {
     if (!isAuthenticated) return
 
@@ -45,19 +60,6 @@ export default function CheckinPage() {
       }
     }
   }, [isAuthenticated, onScanSuccess])
-
-  const onScanSuccess = async (decodedText: string) => {
-    if (scanResult === decodedText) return // Prevent duplicate scans
-    
-    setScanResult(decodedText)
-    setStatus('loading')
-
-    try {
-      const response = await fetch('/api/admin/checkin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token: decodedText }),
-      })
 
       const data = await response.json()
 
