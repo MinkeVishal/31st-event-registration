@@ -34,7 +34,35 @@ export default function CheckinPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token: decodedText }),
       })
-    // ...existing code...
+      const data = await response.json()
+
+      if (data.success) {
+        setUserInfo(data.user)
+        if (data.alreadyCheckedIn) {
+          setStatus('already')
+          setMessage('Already checked in!')
+        } else {
+          setStatus('success')
+          setMessage('Check-in successful!')
+        }
+      } else {
+        setStatus('error')
+        setMessage(data.error || 'Invalid QR code')
+        setUserInfo(null)
+      }
+    } catch (error) {
+      setStatus('error')
+      setMessage('Failed to verify QR code')
+      setUserInfo(null)
+    }
+
+    // Reset after 3 seconds
+    setTimeout(() => {
+      setScanResult(null)
+      setStatus('idle')
+      setUserInfo(null)
+      setMessage('')
+    }, 3000)
   }
 
   useEffect(() => {
