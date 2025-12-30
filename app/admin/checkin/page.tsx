@@ -44,7 +44,7 @@ export default function CheckinPage() {
         scannerRef.current.clear().catch(console.error)
       }
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, onScanSuccess])
 
   const onScanSuccess = async (decodedText: string) => {
     if (scanResult === decodedText) return // Prevent duplicate scans
@@ -166,7 +166,7 @@ export default function CheckinPage() {
 
         {/* Instructions */}
         <div className="bg-gray-800 p-4 rounded-xl text-center">
-          <p className="text-gray-400">Point camera at guest's QR code</p>
+          <p className="text-gray-400">Point camera at guest&apos;s QR code</p>
         </div>
 
         {/* Back to Admin */}
