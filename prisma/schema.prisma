@@ -1,0 +1,45 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  phone        String   @unique
+  division     String   @default("")
+  branch       String   @default("")
+  rollNo       String   @default("")
+  paymentStatus Boolean @default(false)
+  transactionID String? @unique
+  token        String   @default("")
+  qrCode       String   @default("")
+  screenshot   String   @default("")
+  referral     String   @default("")
+  checkedIn    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+}
+
+model party31User {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  phone        String   @unique
+  gender       String   @default("")
+  age          Int      @default(0)
+  passType     String   @default("stag")
+  quantity     Int      @default(1)
+  paymentStatus Boolean @default(false)
+  transactionID String? @unique
+  token        String   @default("")
+  qrCode       String   @default("")
+  screenshot   String   @default("")
+  referral     String   @default("")
+  checkedIn    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+}
